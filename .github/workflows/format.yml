@@ -1,0 +1,30 @@
+name: Format Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Rust environment
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      # Step 3: Install leptosfmt
+      - name: Install leptosfmt
+        run: cargo install --git https://github.com/bram209/leptosfmt.git
+
+      # Step 4: Run the formatting check
+      - name: Check formatting
+        run: leptosfmt --check .
